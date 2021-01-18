@@ -19,7 +19,7 @@ const Wrapper = styled.header`
 const Header = () => (
   <Wrapper>
     <h1>
-      <Link to="/">たくあや日記</Link>
+      <Link to="/">taku&aya diary</Link>
     </h1>
   </Wrapper>
 )

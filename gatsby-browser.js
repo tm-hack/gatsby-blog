@@ -7,3 +7,4 @@
 // You can delete this file if you're not using it
 
 require("./index.css")
+require("prismjs/themes/prism-okaidia.css");
