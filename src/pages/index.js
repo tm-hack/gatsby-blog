@@ -23,7 +23,7 @@ export const query = graphql`
 `
 
 const Body = styled.div`
-  padding: 2em;
+  padding: 1em;
   ul {
     list-style: none;
     padding: 0px;

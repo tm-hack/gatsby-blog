@@ -34,6 +34,7 @@ const Body = styled.div`
     border-radius: 2px;
     padding: 1.5em;
     margin-bottom: 1.5em;
+    
     div:last-child {
       img {
         max-width: 100%;
@@ -99,12 +100,19 @@ const PostPage = ({ data }) => {
           <h1>{title}</h1>
           <div>
             {tags.map((tag) => (
-              <span key={tag}>{tag}</span>
+              <span key={tag} className="frontmatter tag">
+                {tag}
+              </span>
             ))}
           </div>
-          <div>{date}</div>
+          <div className="frontmatter date">
+            <b>{date}</b>
+          </div>
           <div dangerouslySetInnerHTML={{ __html: html }} />
         </article>
+        <section>
+          <h3>同じタグの投稿</h3>
+        </section>
       </Body>
       <Footer />
     </React.Fragment>
