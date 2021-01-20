@@ -6,13 +6,29 @@ import Header from "../components/Header"
 import Footer from "../components/Footer"
 
 export const pageQuery = graphql`
-  query markdown($id: String!) {
+  query markdown($id: String!, $tags: [String]!) {
     markdownRemark(id: { eq: $id }) {
       html
       frontmatter {
         title
         tags
         date(formatString: "YYYY年MM月DD日")
+      }
+    }
+    sameTagPosts: allMarkdownRemark(
+      limit: 5
+      sort: { order: DESC, fields: frontmatter___date }
+      filter: { frontmatter: { tags: { in: $tags } }, id: { ne: $id } }
+    ) {
+      edges {
+        node {
+          id
+          frontmatter {
+            title
+            tags
+            date(formatString: "YYYY年MM月DD日")
+          }
+        }
       }
     }
   }
@@ -112,6 +128,23 @@ const PostPage = ({ data }) => {
         </article>
         <section>
           <h3>同じタグの投稿</h3>
+          <ul>
+            {data.sameTagPost.edges.map(({ node }) => (
+              <li key={node.id}>
+                <h4>{node.frontmatter.title}</h4>
+                <div>
+                  {node.frontmatter.tags.map(( tag ) => (
+                    <span key={tag} className="frontmatter tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="frontmatter date">
+                  <b>{node.frontmatter.date}</b>
+                </div>
+              </li>
+            ))}
+          </ul>
         </section>
       </Body>
       <Footer />
