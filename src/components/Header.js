@@ -5,14 +5,11 @@ import styled from "styled-components"
 const Wrapper = styled.header`
   background: var(--theme-color);
   margin: 0px;
-  padding: 1em 1em;
+  padding: 0.5em 1em;
   color: white;
   a {
     text-decoration: none;
     color: white;
-  }
-  h1 {
-    margin auto
   }
 `;
 

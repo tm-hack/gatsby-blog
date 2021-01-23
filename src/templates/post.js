@@ -1,12 +1,12 @@
 import React from "react"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import styled from "styled-components"
 
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 
 export const pageQuery = graphql`
-  query markdown($id: String!, $tags: [String]!) {
+  query markdown($id: String!, $tags: [String!]) {
     markdownRemark(id: { eq: $id }) {
       html
       frontmatter {
@@ -105,51 +105,53 @@ const Body = styled.div`
 `
 
 const PostPage = ({ data }) => {
-  const html = data.markdownRemark.html
-  const { title, tags, date } = data.markdownRemark.frontmatter
+    const html = data.markdownRemark.html
+    const { title, tags, date } = data.markdownRemark.frontmatter
 
-  return (
-    <React.Fragment>
-      <Header />
-      <Body>
-        <article>
-          <h1>{title}</h1>
-          <div>
-            {tags.map((tag) => (
-              <span key={tag} className="frontmatter tag">
-                {tag}
-              </span>
-            ))}
-          </div>
-          <div className="frontmatter date">
-            <b>{date}</b>
-          </div>
-          <div dangerouslySetInnerHTML={{ __html: html }} />
-        </article>
-        <section>
-          <h3>同じタグの投稿</h3>
-          <ul>
-            {data.sameTagPost.edges.map(({ node }) => (
-              <li key={node.id}>
-                <h4>{node.frontmatter.title}</h4>
-                <div>
-                  {node.frontmatter.tags.map(( tag ) => (
-                    <span key={tag} className="frontmatter tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="frontmatter date">
-                  <b>{node.frontmatter.date}</b>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </Body>
-      <Footer />
-    </React.Fragment>
-  )
+    return (
+        <React.Fragment>
+            <Header />
+            <Body>
+                <article>
+                    <h1>{title}</h1>
+                    <div>
+                        {tags.map((tag) => (
+                            <span key={tag} className="frontmatter tag">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                    <div className="frontmatter date">
+                        <b>{date}</b>
+                    </div>
+                    <div dangerouslySetInnerHTML={{ __html: html }} />
+                </article>
+                <section>
+                    <h3>同じタグの投稿</h3>
+                    <ul>
+                        {data.sameTagPosts.edges.map(({ node }) => (
+                            <li key={node.id}>
+                                <Link to={node.id}>
+                                    <h4>{node.frontmatter.title}</h4>
+                                    <div>
+                                        {node.frontmatter.tags.map((tag) => (
+                                            <span key={tag} className="frontmatter tag">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <div className="frontmatter date">
+                                        <b>{node.frontmatter.date}</b>
+                                    </div>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            </Body>
+            <Footer />
+        </React.Fragment>
+    )
 }
 
 export default PostPage
